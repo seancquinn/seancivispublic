@@ -11,7 +11,7 @@ endpoint = "https://api.civisanalytics.com"
 api_key = os.environ['CIVIS_API_KEY']
 
 def main():
-	parser = argparse.ArgumentParser(description='Import data from redshift and write it back')
+    parser = argparse.ArgumentParser(description='Import data from redshift and write it back')
     parser.add_argument('--database', default=None, type=int, help='Database Id of the database to query')
     parser.add_argument('-s', '--schema', default=None, type=str, help='Schema to import the file to')
     parser.add_argument('-t', '--table', default=None, type=str, help='Table to import the file to')
