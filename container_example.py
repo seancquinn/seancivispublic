@@ -11,14 +11,21 @@ endpoint = "https://api.civisanalytics.com"
 api_key = os.environ['CIVIS_API_KEY']
 
 def main():
-	source_database_id = 326
-	sql = os.environ['SQL']
+	parser = argparse.ArgumentParser(description='Import data from redshift and write it back')
+    parser.add_argument('--database', default=None, type=int, help='Database Id of the database to query')
+    parser.add_argument('-s', '--schema', default=None, type=str, help='Schema to import the file to')
+    parser.add_argument('-t', '--table', default=None, type=str, help='Table to import the file to')
+    parser.add_argument('--sql', default=None, type=str, help='sql to run when querying the database')
+    args = parser.parse_args()
+
+	source_database_id = args.database
+	sql = args.sql
 
 	df = query_to_pandas(sql,source_database_id)
 
-	destination_database_id = 326
-	schema = os.environ['SCHEMA']
-	table = os.environ['TABLE']
+	destination_database_id = args.database
+	schema = args.schema
+	table = args.table
 	
 	pandas_to_redshift(df, schema, table, destination_database_id)
 
